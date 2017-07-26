@@ -2,6 +2,33 @@
 
 ## how to run
 
+### for users
+
+``` bash
+$ tar zxvf hello-world-jresty-1.1.0.tar.gz
+$ cd hello-world-jresty-1.1.0
+
+$ jresty start
+jresty web app is listening on 8080 ...
+
+$ curl http://localhost:8080/jresty/ping.json -i
+some json response
+
+$ jresty stop
+```
+
+if the port ``8080`` is already used by others, you can change the listening port in  ``hello-world-jresty-1.1.0/tomcat/conf/server.xml``
+
+
+``` xml
+<Connector port="8080 -> ${port}" protocol="HTTP/1.1"
+               connectionTimeout="20000"
+               redirectPort="8443" />
+```
+
+
+### for developers
+
 - run in ``eclipse`` or ``IntelliJ IDEA``
 
 	``org.example.jresty.runner.JettyEmbedRunner``

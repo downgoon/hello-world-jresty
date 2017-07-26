@@ -1,0 +1,58 @@
+#!/bin/bash
+
+# discover BASEDIR
+BASEDIR=`dirname "$0"`/.
+BASEDIR=`(cd "$BASEDIR"; pwd)`
+ls -l "$0" | grep -e '->' > /dev/null 2>&1
+if [ $? = 0 ]; then
+  #this is softlink
+  _PWD=`pwd`
+  _EXEDIR=`dirname "$0"`
+  cd "$_EXEDIR"
+  _BASENAME=`basename "$0"`
+  _REALFILE=`ls -l "$_BASENAME" | sed 's/.*->\ //g'`
+   BASEDIR=`dirname "$_REALFILE"`/.
+   BASEDIR=`(cd "$BASEDIR"; pwd)`
+   cd "$_PWD"
+fi
+
+# function:
+fun_usage () {
+  echo "Usage (long format): jresty {start|stop|log}"
+  echo "Usage (short format): jresty {-d|-k|-l}"
+}
+
+#
+# working area
+#
+
+if [ $# -eq 0 ]; then
+  fun_usage
+fi
+
+# sub-command
+while [ $# -gt 0 ]; do
+  COMMAND=$1
+  case $COMMAND in
+    start|-d)
+      shift 1
+      $BASEDIR/start-jresty.sh $* && tail -f tomcat/logs/catalina.out
+      break
+      ;;
+    stop|-k)
+      shift 1
+      $BASEDIR/stop-jresty.sh $*
+      break
+      ;;
+    log|-l)
+      shift 1
+      tail -30f tomcat/logs/catalina.out
+      break
+      ;;
+    *)
+      echo "command not supported"
+      fun_usage
+      break
+      ;;
+  esac
+done
