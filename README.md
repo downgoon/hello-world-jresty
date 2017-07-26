@@ -5,6 +5,7 @@
 ### for users
 
 ``` bash
+$ wget https://github.com/downgoon/hello-world-jresty/files/1176518/hello-world-jresty-1.1.0.tar.gz
 $ tar zxvf hello-world-jresty-1.1.0.tar.gz
 $ cd hello-world-jresty-1.1.0
 
